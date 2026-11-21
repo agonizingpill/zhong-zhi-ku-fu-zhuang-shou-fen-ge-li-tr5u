@@ -91,7 +91,18 @@ class Distribution(Base):
     seeds:Mapped[int]=mapped_column(Integer)
     purpose:Mapped[str]=mapped_column(String(300))
     state:Mapped[str]=mapped_column(String(20),default='requested')
+    allocated:Mapped[int|None]=mapped_column(Integer,nullable=True)
+    sown:Mapped[int|None]=mapped_column(Integer,nullable=True)
+    batch_id:Mapped[int|None]=mapped_column(ForeignKey('share_batches.id'),nullable=True)
     reserve_snapshot:Mapped[dict|None]=mapped_column(JSON,nullable=True)
+class ShareBatch(Base):
+    __tablename__='share_batches'
+    id:Mapped[int]=mapped_column(primary_key=True)
+    code:Mapped[str]=mapped_column(String(60),unique=True)
+    accession_id:Mapped[int]=mapped_column(ForeignKey('accessions.id'))
+    token:Mapped[str]=mapped_column(String(64),unique=True)
+    plan:Mapped[list]=mapped_column(JSON)
+    snapshot:Mapped[dict]=mapped_column(JSON)
 class Audit(Base):
     __tablename__='audits'
     id:Mapped[int]=mapped_column(primary_key=True)

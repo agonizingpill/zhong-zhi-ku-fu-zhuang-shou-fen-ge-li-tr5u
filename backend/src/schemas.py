@@ -59,3 +59,9 @@ class DistributionInput(BaseModel):
     recipient:str=Field(min_length=2,max_length=100)
     seeds:int=Field(ge=1,le=10000)
     purpose:str=Field(min_length=5,max_length=300)
+class SowInput(BaseModel):
+    sown:int=Field(ge=0,le=1000000)
+class SignInput(BaseModel):
+    accession_id:int
+    code:str=Field(min_length=3,max_length=60)
+    distribution_ids:list[int]=Field(min_length=1,max_length=200)
